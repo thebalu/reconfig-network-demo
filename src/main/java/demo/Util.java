@@ -49,8 +49,8 @@ public class Util {
         for (int i = 0; i < numVertex; i++) {
             String v = "v" + i;
             g.addVertex(v);
-            g.addEdge(v, CENTER, new StaticEdge(10));
-            g.addEdge(CENTER, v, new StaticEdge(10));
+            g.addEdge(v, CENTER, new StaticEdge(100));
+            g.addEdge(CENTER, v, new StaticEdge(100));
         }
 
         for (String v1 : g.vertexSet()) {

@@ -13,11 +13,39 @@ public class Demands {
                 if (i == j) {
                     demands[i][j] = 0;
                 } else {
-                    demands[i][j] = (i + 1) * (j + 1);
+                    demands[i][j] = (i + 1) * (j + 2);
                 }
             }
         }
     }
+
+    public int getSumDemandFrom(String v) {
+        int from = Integer.parseInt(v.substring(1));
+        return getSumDemandFrom(from);
+    }
+
+    public int getSumDemandTo(String v) {
+        int to = Integer.parseInt(v.substring(1));
+        return getSumDemandTo(to);
+    }
+    public int getSumDemandFrom(int v) {
+        int sumDemand = 0;
+        for(int i=0; i<demands.length; i++) {
+            sumDemand += demands[v][i];
+        }
+        return sumDemand;
+    }
+
+
+    public int getSumDemandTo(int v) {
+        int sumDemand = 0;
+        for(int i=0; i<demands.length; i++) {
+            sumDemand += demands[i][v];
+        }
+        return sumDemand;
+    }
+
+
 
     public int getDemand(String v1, String v2) {
         if (v1.equals(Util.CENTER) || v2.equals(Util.CENTER)) {
