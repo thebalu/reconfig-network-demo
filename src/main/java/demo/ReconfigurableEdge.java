@@ -1,6 +1,7 @@
 package demo;
 
 import org.jgrapht.Graph;
+import org.jgrapht.graph.DefaultWeightedEdge;
 
 /* Reconfigurable link in the network */
 public class ReconfigurableEdge extends NetworkEdge {
@@ -8,7 +9,7 @@ public class ReconfigurableEdge extends NetworkEdge {
     private boolean isEnabled;
 
     private Double optimalTriangleDemand;
-    private Graph<String, NetworkEdge> optimalTriangleFlow;
+    private Graph<String, DefaultWeightedEdge> optimalTriangleFlow;
 
     protected ReconfigurableEdge(int capacity) {
         super(capacity);
@@ -27,7 +28,7 @@ public class ReconfigurableEdge extends NetworkEdge {
         isEnabled = false;
     }
 
-    public void setOptimalTriangleFlow(Graph g) {
+    public void setOptimalTriangleFlow(Graph<String, DefaultWeightedEdge> g) {
         optimalTriangleFlow = g;
     }
     public void setOptimalTriangleDemand(double d) {
@@ -38,7 +39,7 @@ public class ReconfigurableEdge extends NetworkEdge {
         return optimalTriangleDemand;
     }
 
-    public Graph<String, NetworkEdge> getOptimalTriangleFlow() {
+    public Graph<String, DefaultWeightedEdge> getOptimalTriangleFlow() {
         return optimalTriangleFlow;
     }
 

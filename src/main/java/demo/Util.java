@@ -1,6 +1,7 @@
 package demo;
 
 import org.jgrapht.Graph;
+import org.jgrapht.graph.DefaultWeightedEdge;
 import org.jgrapht.graph.SimpleDirectedWeightedGraph;
 import org.jgrapht.nio.Attribute;
 import org.jgrapht.nio.DefaultAttribute;
@@ -40,6 +41,28 @@ public class Util {
         System.out.println(writer.toString());
     }
 
+    public static void renderFlowGraph(Graph<String, DefaultWeightedEdge> graph)
+            throws ExportException {
+
+        DOTExporter<String, DefaultWeightedEdge> exporter =
+                new DOTExporter<>(v -> v);
+        exporter.setVertexAttributeProvider((v) -> {
+            Map<String, Attribute> map = new LinkedHashMap<>();
+            map.put("label", DefaultAttribute.createAttribute(v.toString()));
+            return map;
+        });
+
+        exporter.setEdgeAttributeProvider((edge) -> {
+            Map<String, Attribute> map = new LinkedHashMap<>();
+            map.put("label", DefaultAttribute.createAttribute(edge.toString() + " - " + graph.getEdgeWeight(edge)));
+
+            return map;
+        });
+        Writer writer = new StringWriter();
+        exporter.exportGraph(graph, writer);
+        System.out.println(writer.toString());
+    }
+
 
     public static Graph<String, NetworkEdge> createGraph(int numVertex) {
         Graph<String, NetworkEdge> g = new SimpleDirectedWeightedGraph<>(NetworkEdge.class);
@@ -56,8 +79,8 @@ public class Util {
         for (String v1 : g.vertexSet()) {
             for (String v2 : g.vertexSet()) {
                 if (!v1.equals(v2) && !v1.equals(CENTER) && !v2.equals(CENTER)) {
-                    g.addEdge(v1, v2, new ReconfigurableEdge(10));
-                    g.addEdge(v2, v1, new ReconfigurableEdge(10));
+                    g.addEdge(v1, v2, new ReconfigurableEdge(100));
+                    g.addEdge(v2, v1, new ReconfigurableEdge(100));
                 }
             }
         }
