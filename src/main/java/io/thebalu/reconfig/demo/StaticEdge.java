@@ -1,4 +1,4 @@
-package demo;
+package io.thebalu.reconfig.demo;
 
 /* Non-reconfigurable link in the network */
 public class StaticEdge extends NetworkEdge {

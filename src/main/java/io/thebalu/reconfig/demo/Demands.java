@@ -1,10 +1,11 @@
-package demo;
+package io.thebalu.reconfig.demo;
 
-import static java.lang.Integer.parseInt;
+import java.util.Arrays;
 
 public class Demands {
     public int[][] demands;
 
+    // Demo data n*n
     public Demands(int s) {
         demands = new int[s][s];
 
@@ -19,6 +20,10 @@ public class Demands {
         }
     }
 
+    public Demands(int[][] dem) {
+        demands = dem;
+    }
+
     public int getSumDemandFrom(String v) {
         int from = Integer.parseInt(v.substring(1));
         return getSumDemandFrom(from);
@@ -28,9 +33,10 @@ public class Demands {
         int to = Integer.parseInt(v.substring(1));
         return getSumDemandTo(to);
     }
+
     public int getSumDemandFrom(int v) {
         int sumDemand = 0;
-        for(int i=0; i<demands.length; i++) {
+        for (int i = 0; i < demands.length; i++) {
             sumDemand += demands[v][i];
         }
         return sumDemand;
@@ -39,12 +45,11 @@ public class Demands {
 
     public int getSumDemandTo(int v) {
         int sumDemand = 0;
-        for(int i=0; i<demands.length; i++) {
+        for (int i = 0; i < demands.length; i++) {
             sumDemand += demands[i][v];
         }
         return sumDemand;
     }
-
 
 
     public int getDemand(String v1, String v2) {
@@ -60,4 +65,13 @@ public class Demands {
         return demands[v1][v2];
     }
 
+    @Override
+    public String toString() {
+        String s = "";
+        if(demands==null) return "<null>";
+        for (int i=0; i<demands.length; i++) {
+            s+=(i+ " to nth: " + Arrays.toString(demands[i]))+"\n";
+        }
+        return s;
+    }
 }

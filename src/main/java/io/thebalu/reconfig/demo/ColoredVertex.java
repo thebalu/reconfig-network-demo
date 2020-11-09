@@ -1,4 +1,4 @@
-package demo;
+package io.thebalu.reconfig.demo;
 
 import java.util.Objects;
 

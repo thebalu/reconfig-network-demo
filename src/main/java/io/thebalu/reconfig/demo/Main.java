@@ -1,4 +1,4 @@
-package demo;
+package io.thebalu.reconfig.demo;
 
 import org.jgrapht.Graph;
 import org.jgrapht.alg.interfaces.MatchingAlgorithm;
@@ -11,21 +11,28 @@ import org.jgrapht.nio.ExportException;
 
 import java.util.*;
 
-import static demo.Util.CENTER;
+import static io.thebalu.reconfig.demo.Util.CENTER;
 
 public final class Main {
 
-    private Main() {
-    }
-
-
     public static void main(String[] args) throws ExportException {
 
-        Demands demands = new Demands(4);
+        // For now, the program can be configured from here. In a future version, these will be taken as parameters
+        Demands demands = new Demands(new int[][]{
+                {0,3,4,5},
+                {4,0,8,10},
+                {6,9,0,15},
+                {8,12,16,0}
+        });
 
+        System.out.println("Demands: ");
+        System.out.println(demands);
+
+
+        // Fill graph with data for demo. Later it will be taken as parameter
         Graph<String, NetworkEdge> myGraph = Util.createGraph(4);
 
-
+        // Main algorithm is Algorithm 2 from the paper
         // line 1
         Set<Double> thresholds = new HashSet<>();
 
@@ -49,18 +56,21 @@ public final class Main {
             }
         }
 
+        System.out.println("Original graph:");
         Util.renderGraph(myGraph);
+        System.out.println("Original optimal flow:");
+        Util.renderFlowGraph(originalFlow);
+
 
         List<Double> orderedThresholds = new ArrayList<>(thresholds);
         Collections.sort(orderedThresholds);
-        System.out.println(orderedThresholds);
+        System.out.println("Threshold levels to check: " + orderedThresholds);
 
         MatchingAlgorithm.Matching<ColoredVertex, DefaultWeightedEdge> matchingResult = determineReconfiguration(myGraph, demands, originalFlow, orderedThresholds);
 
-        if(matchingResult == null) {
+        if (matchingResult == null) {
             System.out.println("No solution found");
         } else {
-
 
             Graph<String, NetworkEdge> resultGraph = new DefaultDirectedWeightedGraph<>(NetworkEdge.class);
 
@@ -90,20 +100,19 @@ public final class Main {
                 newFlow.setEdgeWeight(newFlow.addEdge(edgeSource, edgeTarget), optimalTriangleFlow.getEdgeWeight(optimalTriangleFlow.getEdge(edgeSource, edgeTarget)));
                 newFlow.setEdgeWeight(newFlow.addEdge(edgeTarget, edgeSource), optimalTriangleFlow.getEdgeWeight(optimalTriangleFlow.getEdge(edgeTarget, edgeSource)));
             }
-            Util.renderGraph(resultGraph);
-            System.out.println(resultGraph);
 
-            Util.renderFlowGraph(originalFlow);
+            System.out.println("Result graph:");
+            Util.renderGraph(resultGraph);
+            System.out.println("Resulting optimal flow:");
             Util.renderFlowGraph(newFlow);
         }
 
     }
 
     public static MatchingAlgorithm.Matching<ColoredVertex, DefaultWeightedEdge> determineReconfiguration(Graph<String, NetworkEdge> network, Demands demands,
-                                                                      Graph<String, DefaultWeightedEdge> originalFlow, List<Double> thresholds) {
+                                                                                                          Graph<String, DefaultWeightedEdge> originalFlow, List<Double> thresholds) {
 
         for (double currentThreshold : thresholds) {
-            System.out.println("Threshold:" + currentThreshold);
 
             Graph<ColoredVertex, DefaultWeightedEdge> currentNetwork = new SimpleWeightedGraph<>(DefaultWeightedEdge.class);
             int redCount = 0;
@@ -159,9 +168,7 @@ public final class Main {
 
             MatchingAlgorithm.Matching<ColoredVertex, DefaultWeightedEdge> matchingResult = matching.getMatching();
 
-            System.out.println(matchingResult.getWeight());
-
-            if(matchingResult.getWeight() > (double) redCount - 0.1 ) {
+            if (matchingResult.getWeight() > (double) redCount - 0.1) {
                 return matchingResult;
             }
         }

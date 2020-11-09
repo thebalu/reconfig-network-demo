@@ -1,4 +1,4 @@
-package demo;
+package io.thebalu.reconfig.demo;
 
 import org.jgrapht.graph.DefaultWeightedEdge;
 

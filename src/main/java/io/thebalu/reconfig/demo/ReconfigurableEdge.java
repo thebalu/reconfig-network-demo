@@ -1,4 +1,4 @@
-package demo;
+package io.thebalu.reconfig.demo;
 
 import org.jgrapht.Graph;
 import org.jgrapht.graph.DefaultWeightedEdge;
@@ -31,6 +31,7 @@ public class ReconfigurableEdge extends NetworkEdge {
     public void setOptimalTriangleFlow(Graph<String, DefaultWeightedEdge> g) {
         optimalTriangleFlow = g;
     }
+
     public void setOptimalTriangleDemand(double d) {
         optimalTriangleDemand = d;
     }
@@ -45,6 +46,6 @@ public class ReconfigurableEdge extends NetworkEdge {
 
     @Override
     public String toString() {
-        return "{(reconf)" + "capacity=" + getCapacity() + ", OPTIMAL="+ optimalTriangleDemand + " } ";
+        return "{(reconf)" + "capacity=" + getCapacity() + ", OPTIMAL=" + optimalTriangleDemand + " } ";
     }
 }
